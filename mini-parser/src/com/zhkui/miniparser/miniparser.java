@@ -6,7 +6,7 @@ package com.zhkui.miniparser;
 public class miniparser {
     public static void main(String[] args) {
         String s = "abcdefgh";
-        System.out.print(myAtoi("123"));
+        System.out.print(isPalindrome(12231));
     }
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -144,22 +144,64 @@ public class miniparser {
 
     public static int myAtoi(String str) {
         int result = 0;
-        boolean  minus = false;
+        int  minus = 0;
+        int plus = 0;
+        boolean overflow = false;
+        str = str.trim();
         if (!str.isEmpty()){
             for (int i=0; i<str.length(); i++){
                 char acii = str.charAt(i);
                 if (acii>47 && acii<58){
+                    if(result>Integer.MAX_VALUE/10 || (result==Integer.MAX_VALUE/10 && (acii- 48)>7)){
+                        overflow = true;
+                        result = Integer.MAX_VALUE;
+                        break;
+                    }
                     result *=10;
                     result += acii- 48;
                 }else if(acii == 45){
-                    minus = true;
+                    minus += 1;
+                }
+                else if(acii == 43){
+                    plus += 1;
+                }
+                else{
+                    break;
                 }
             }
-            if (minus){
-                result = 0- result;
+            if (minus+plus >1){
+                result = 0;
+            }
+            else if (minus == 1){
+                if(overflow){
+                    result = 0-result-1;
+                }
+                result = 0-result;
             }
         }
         return result;
+    }
+
+    public static boolean isPalindrome(int x) {
+        if (x < 0)
+            return false;
+        if (x == 0)
+            return true;
+        int base = 1;
+        while (x / base>=10){
+            base *= 10;
+        }
+        while (x > 0 ) {
+            int l = x / base;
+            int r = x % 10;
+            if (l != r){
+                return  false;
+            }
+            x -= l*base;
+            x /= 10;
+            base /= 100;
+        }
+        return true;
     }
 }
 
