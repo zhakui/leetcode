@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - miniparser",
+            "request": "launch",
+            "mainClass": "com.zhkui.miniparser.miniparser"
+        }
+    ]
+}
